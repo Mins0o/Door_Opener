@@ -22,6 +22,8 @@ void setup() {
   
   // Setup pin 13 as output and turn LED off
   pinMode(ledPin, OUTPUT);
+  pinMode(12, OUTPUT);
+  digitalWrite(12, LOW);
   digitalWrite(ledPin, LOW);
 }
 
