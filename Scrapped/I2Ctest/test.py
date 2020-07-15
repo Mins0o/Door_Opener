@@ -10,10 +10,8 @@ from smbus import SMBus
 addr = 0x8 # bus address
 bus = SMBus(1) # indicates /dev/ic2-1
 
-numb = 1
-
 print ("Enter 1 for ON or 0 for OFF")
-while numb == 1:
+while True:
     """ledstate = input(">>>>   ")
 
     if ledstate == "1":
@@ -22,4 +20,4 @@ while numb == 1:
         bus.write_byte(addr, 0x0) # switch it on
     else:
         numb = 0"""
-    print(bus.read_byte(0x8),end="hey\n\n")
+    print(bus.read_block_data(addr,0))

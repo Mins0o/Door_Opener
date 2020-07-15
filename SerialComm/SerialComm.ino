@@ -1,7 +1,8 @@
 #include <Wire.h>
 int prev = 500;
 int pres;
-byte soundRead;
+byte oneByte;
+int soundRead;
 
 void setup(){
   Serial.begin(9600);
@@ -10,6 +11,8 @@ void setup(){
 void loop(){
   soundRead=analogRead(A3);
   pres=prev*0.6+soundRead*0.4;
-  Serial.println(pres);
+  oneByte=(byte)(pres/4);
+  Serial.write(oneByte);
+  delay(9);
   prev=pres;
 }

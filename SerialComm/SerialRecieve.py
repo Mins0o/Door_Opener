@@ -2,18 +2,18 @@ import serial
 from os import listdir
 from os.path import isfile, join
 
-devices = [f for f in listdir(mypath) if ((f[:4]=="ttyA" or f[:4] == "ttyU")and isfile(join(mypath, f)))]
+devices = [f for f in listdir("/dev/") if ((f[:4]=="ttyA" or f[:4] == "ttyU"))]
 
 for i in range(len(devices)):
-    print(i+"\n")
+    print(i,end="\t")
     print(devices[i])
 
 print("Which device are we using?")
 
-selection=int(readline())
+selection=int(input())
 
-arduino = serial.Serial(diveces[selection],9600)
+arduino = serial.Serial("/dev/"+devices[selection],9600)
 
 while True:
-    soundIn=arduino.readline()
+    soundIn=ord(arduino.read())
     print(soundIn)
