@@ -6,12 +6,6 @@ import matplotlib.animation as animation
 import asyncio
 import time
 
-"""async def plot(data):
-    fig = plt.figure()
-    ax = fig.add_subplot(1,1,1)
-    ax.plot(data)
-    plt.show()"""
-
 fig=plt.figure()
 ax = fig.add_subplot(1,1,1)
 buffer=[]
@@ -27,8 +21,10 @@ def chooseDevice():
     return arduino
 
 def addData(i):
+    
     while arduino.in_waiting>0:
         rawread=arduino.readline()
+        
         while(len(rawread)<3):
             rawread+=arduino.read()
         reading=int.from_bytes(rawread[:2],"big")
@@ -36,15 +32,39 @@ def addData(i):
     ax.clear()
     ax.plot(buffer[-1000:])
 
+def checkSound(data):
+    return len(data)>0
 
+def openDoor(data):
+    ax.clear()
+    ax.plot(data[-1000:-1])
+    plt.show()
+    print(data)
     
 if __name__=="__main__":
     arduino=chooseDevice()
     arduino.readline()
     arduino.readline()
-    arduino.readline()
-    ani=animation.FuncAnimation(fig,addData,fargs=(),interval=1)
-    plt.show()
+    while True:
+        buffer=[]
+        if arduino.in_waiting>0:
+            rawread=arduino.readline()
+        else:
+            time.sleep(0.5)
+        if(len(rawread)==4):
+            while len(rawread)<5:
+                while arduino.in_waiting==0:
+                    time.sleep(0.5)
+                rawread=arduino.readline()
+                while len(rawread)<3:
+                    rawread+=arduino.read()
+                reading=int.from_bytes(rawread[:2],"big")
+                buffer.append(reading)
+        if(checkSound(buffer)):
+            openDoor(buffer)
+    #ani=animation.FuncAnimation(fig,addData,fargs=(),interval=5)
+    #plt.show()
+            
     """
     while True:
         buffer=buffer[-20:]
