@@ -2,9 +2,9 @@ import serial
 from os import listdir
 from os.path import isfile, join
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-import asyncio
 import time
+import csv
+import
 
 
 def chooseDevice():
@@ -17,7 +17,7 @@ def chooseDevice():
     arduino = serial.Serial("/dev/"+devices[selection],9600)
     return arduino
 
-def checkSound(data):
+def checkSound(data,clf):
     return len(data)>0
 
 def openDoor(data):
@@ -27,7 +27,7 @@ def openDoor(data):
     plt.show()
     #print(data)
 
-def test(arduino):
+def test(arduino,clf):
     buffer=[]
     arduino.readline()
     arduino.readline()
@@ -45,7 +45,7 @@ def test(arduino):
                     rawread+=arduino.read()
                 reading=int.from_bytes(rawread[:2],"big")
                 buffer.append(reading)
-            if(checkSound(buffer)):
+            if(checkSound(buffer,clf)):
                 openDoor(buffer)
             buffer=[]
 
@@ -82,15 +82,16 @@ def recordData(arduino):
                 f.close()
                 break
             buffer=[]
-    
+   
 if __name__=="__main__":
     arduino=chooseDevice()
     selection=42
+    clf=Classifier(loadPath="")
     while not(selection==1 or selection ==0):
         print("0 for data recording, 1 for testing")
         selection=int(input())
     if selection == 1:
-        test(arduino)
+        test(arduino,clf)
     else:
         recordData(arduino)
 
