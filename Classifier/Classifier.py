@@ -3,14 +3,17 @@ from FeatureExtractor import Extractor
 import pickle
 
 class Classifier:
-    def __init__(self,loadPath=None,trainData=(["1's features","2's features"],["y","n"]),
-                 extractorOptions=[True,False,True]):
+    def __init__(self,trainDataPath=None,
+                 extractorOptions=[True,False,True],loadPath=None):
         if not loadPath==None:
             self.gpc,self.ext=pickle.load(loadPath)
-        elif not (trainData==(["1's features","2's features"],["y","n"]) or extractorOptions==[True,False,True]):
+        elif not (trainDataPath==None or extractorOptions==[True,False,True]):
             self.ext=Extractor(extractorOptions)
-            fetures=self.ext.features(trainData[0])
-            labels=trainData[1]
+            data=ext.tsvRead(trainDataPath)
+            features=self.ext.features(data[0])
+            labels=data[1]
+            print(features[0])
+            print(labels[0])
             self.gpc=GaussianProcessClassifier().fit(features,labels)
         else:
             raise Exception("Either path to saved classifier or (dataset+extractor options) should be given")
@@ -30,11 +33,11 @@ class Classifier:
         fn=0
         tn=0
         for i in range(len(predictions)):
-            if(predictions[i]=="y" && answers[i]=="y"):
+            if(predictions[i]=="y" and answers[i]=="y"):
                 tp+=1
-            elif(predictions[i]=="y" && answers[i]=="n"):
+            elif(predictions[i]=="y" and answers[i]=="n"):
                 fp+=1
-            elif(predictions[i]=="n" && answers[i]=="y"):
+            elif(predictions[i]=="n" and answers[i]=="y"):
                 fn+=1
             else:
                 tn+=1
@@ -43,4 +46,7 @@ class Classifier:
         accuracy=(tp+tn)/len(predictions)
         print("precision: \t\t{0}\nrecall: \t\t{1}\naccuracy: \t\t{2}".format(precision,recall,accuracy))
         
-    
+if __name__=="__main__":
+    ext=Extractor()
+    options=[True,True,True,True]
+    clf=Classifier("D:/Workspace/09 Mechatronic/01 Door_Opener/Door_Opener/trainData.tsv",options)

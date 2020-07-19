@@ -4,7 +4,6 @@ from os.path import isfile, join
 import matplotlib.pyplot as plt
 import time
 import csv
-import
 
 
 def chooseDevice():
@@ -53,7 +52,10 @@ def recordData(arduino):
     buffer=[]
     arduino.readline()
     arduino.readline()
-    f=open("./data.tsv",'w')
+    fileName=input("File name?")
+    if fileName=="":
+        fileName="trainData.tsv"
+    f=open("../"+fileName,'w')
     while True:
         if arduino.in_waiting>0:
             rawread=arduino.readline()
@@ -72,9 +74,9 @@ def recordData(arduino):
             print("Is this the target sound?")
             label=input()
             if label.lower()=="n" or label.lower()=="y":
-                for i in range(len(buffer)-1):
-                    f.write("{0}, ".format(i))
-                f.write(str(buffer[-1]))
+                for i in range(len(buffer)-2):
+                    f.write("{0},".format(buffer[i]))
+                f.write(str(buffer[-2]))
                 f.write("\t{0}\n".format(label))
             print("Stop recording?")
             hault=input()
@@ -86,7 +88,7 @@ def recordData(arduino):
 if __name__=="__main__":
     arduino=chooseDevice()
     selection=42
-    clf=Classifier(loadPath="")
+    clf=[]#Classifier(loadPath="")
     while not(selection==1 or selection ==0):
         print("0 for data recording, 1 for testing")
         selection=int(input())
