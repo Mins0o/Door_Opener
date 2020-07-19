@@ -78,5 +78,5 @@ class Extractor:
 if __name__=="__main__":
     ext=Extractor()
     #print(ext.features(ext.tsvRead("D:/Workspace/09 Mechatronic/01 Door_Opener/Door_Opener/data.tsv")[0],True))
-    tot=ext.tsvRead("D:/Workspace/09 Mechatronic/01 Door_Opener/Door_Opener/trainData.tsv")[0]
-    a=ext.tsvRead("D:/Workspace/09 Mechatronic/01 Door_Opener/Door_Opener/trainData.tsv")[0][0]
+    tot=ext.tsvRead("./trainData.tsv")[0]
+    a=ext.tsvRead("./trainData.tsv")[0][0]

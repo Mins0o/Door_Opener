@@ -1,12 +1,16 @@
 from sklearn.gaussian_process import GaussianProcessClassifier
-from FeatureExtractor import Extractor
+from Extractor import Extractor
+from os import listdir
+from os import _exit
 import pickle
 
 class Classifier:
     def __init__(self,trainDataPath=None,
                  extractorOptions=[True,False,True],loadPath=None):
         if not loadPath==None:
-            self.gpc,self.ext=pickle.load(loadPath)
+            f=open(loadPath,"rb")
+            self.gpc,self.ext=pickle.load(f)
+            f.close()
         elif not (trainDataPath==None or extractorOptions==[True,False,True]):
             self.ext=Extractor(extractorOptions)
             data=ext.tsvRead(trainDataPath)
@@ -17,13 +21,17 @@ class Classifier:
             raise Exception("Either path to saved classifier or (dataset+extractor options) should be given")
 
     def save(self):
-        fileName=input("What should the file name be for this classifier?")
-        pickle.dump((self.gpc,self.ext),"./"+fileName)
+        fileName=input("What should the name of PICKLE file be for this classifier?\nex)trained\n")
+        if fileName=="":
+            fileName="trained"
+        f=open("./data/"+fileName+".pkl",'wb')
+        pickle.dump((self.gpc,self.ext),f)
+        f.close()
         
     def predict(self,x):
         return self.gpc.predict(self.ext.features(x))
 
-    def evaluate(self,evalDataPath):
+    def evaluate(self,evalDataPath,targetLabels=["y"]):
         data=self.ext.tsvRead(evalDataPath)
         features=self.ext.features(data[0])
         predictions=self.gpc.predict(features)
@@ -33,11 +41,11 @@ class Classifier:
         fn=0
         tn=0
         for i in range(len(predictions)):
-            if(predictions[i]=="y" and labels[i]=="y"):
+            if(predictions[i] in targetLabels and labels[i] in targetLabels):
                 tp+=1
-            elif(predictions[i]=="y" and labels[i]=="n"):
+            elif(predictions[i] in targetLabels and not labels[i] in targetLabels):
                 fp+=1
-            elif(predictions[i]=="n" and labels[i]=="y"):
+            elif(not predictions[i] in targetLabels and labels[i] in targetLabels):
                 fn+=1
             else:
                 tn+=1
@@ -62,5 +70,29 @@ class Classifier:
     
 if __name__=="__main__":
     ext=Extractor()
-    options=[False,True,True,False]
-    clf=Classifier("D:/Workspace/09 Mechatronic/01 Door_Opener/Door_Opener/trainData.tsv",options)
+    if(input("Are you here to evaluate?\n").lower()=="y"):
+        itemsList=[f for f in listdir("data/") if f[-4:]==".pkl"]
+        for item in range(len(itemsList)):
+            print("{0}: {1}".format(item,itemsList[item]))
+        clfPath=int(input("Select your classifier PICKLE file"))
+        clf=Classifier(loadPath="data/"+itemsList[clfPath])
+        dataList=[f for f in listdir("data/") if f[-4:]==".tsv"]
+        for datum in range(len(dataList)):
+            print("{0}: {1}".format(datum,dataList[datum]))
+        dataPath=int(input("Select your evaluation data"))
+        targetLabels=[l for l in input("target labels\n")]
+        clf.evaluate("data/"+dataList[dataPath],targetLabels)
+        _exit(0)
+    opStr=input("Input your option string\nex)'fttt'\n")
+    options=[]
+    for l in opStr:
+        if l=="t":
+            options.append(True)
+        else:
+            options.append(False)
+    itemsList=listdir("data/")
+    for item in range(len(itemsList)):
+        print("{0}: {1}".format(item, itemsList[item]))
+    dataPath=int(input("Select your training data\n"))
+    clf=Classifier("data/"+itemsList[dataPath],options)
+    clf.save()

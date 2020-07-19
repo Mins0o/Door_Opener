@@ -2,6 +2,7 @@ import serial
 from os import listdir
 from os.path import isfile, join
 import matplotlib.pyplot as plt
+from Classifier import Classifier
 import time
 import csv
 
@@ -16,8 +17,9 @@ def chooseDevice():
     arduino = serial.Serial("/dev/"+devices[selection],9600)
     return arduino
 
-def checkSound(data,clf):
-    return len(data)>0
+def checkSound(data,clf,targetLabels):
+    print (clf.predict([data])[0])
+    return clf.predict([data])[0] in targetLabels 
 
 def openDoor(data):
     fig=plt.figure()
@@ -30,6 +32,7 @@ def test(arduino,clf):
     buffer=[]
     arduino.readline()
     arduino.readline()
+    targetLabels=[letter for letter in input("What are the target labels?\n")]
     while True:
         if arduino.in_waiting>0:
             rawread=arduino.readline()
@@ -44,7 +47,7 @@ def test(arduino,clf):
                     rawread+=arduino.read()
                 reading=int.from_bytes(rawread[:2],"big")
                 buffer.append(reading)
-            if(checkSound(buffer,clf)):
+            if(checkSound(buffer,clf,targetLabels)):
                 openDoor(buffer)
             buffer=[]
 
@@ -52,10 +55,10 @@ def recordData(arduino):
     buffer=[]
     arduino.readline()
     arduino.readline()
-    fileName=input("File name?")
+    fileName=input("File name?\nex)trainData\n")
     if fileName=="":
-        fileName="trainData.tsv"
-    f=open("../"+fileName,'w')
+        fileName="trainData"
+    f=open("data/"+fileName+".tsv",'w')
     while True:
         if arduino.in_waiting>0:
             rawread=arduino.readline()
@@ -71,28 +74,31 @@ def recordData(arduino):
                     rawread+=arduino.read()
                 reading=int.from_bytes(rawread[:2],"big")
                 buffer.append(reading)
-            print("Is this the target sound?")
-            label=input()
-            if label.lower()=="n" or label.lower()=="y":
+            label=input("Label in one letter\tAdd another letter to finish recording\nYou can skip by not inputting any letters\n")
+            if len(label)==1:
                 for i in range(len(buffer)-2):
                     f.write("{0},".format(buffer[i]))
                 f.write(str(buffer[-2]))
                 f.write("\t{0}\n".format(label))
-            print("Stop recording?")
-            hault=input()
-            if not(hault=="" or hault=="n"):
+            elif len(label)>1:
                 f.close()
                 break
+            while arduino.in_waiting>0:
+                arduino.readline()
             buffer=[]
    
 if __name__=="__main__":
     arduino=chooseDevice()
     selection=42
-    clf=[]#Classifier(loadPath="")
     while not(selection==1 or selection ==0):
         print("0 for data recording, 1 for testing")
         selection=int(input())
     if selection == 1:
+        itemsList=listdir("data/")
+        for item in range(len(itemsList)):
+            print("{0}: {1}".format(item, itemsList[item]))
+        lP=int(input("Classifier pickle path?\n"))
+        clf=Classifier(loadPath="data/"+itemsList[lP])
         test(arduino,clf)
     else:
         recordData(arduino)
