@@ -13,7 +13,7 @@ class Classifier:
             f.close()
         elif not (trainDataPath==None or extractorOptions==[True,False,True]):
             self.ext=Extractor(extractorOptions)
-            data=ext.tsvRead(trainDataPath)
+            data=ext.readTsv(trainDataPath)
             features=self.ext.features(data[0])
             labels=data[1]
             self.gpc=GaussianProcessClassifier().fit(features,labels)
@@ -32,7 +32,7 @@ class Classifier:
         return self.gpc.predict(self.ext.features(x))
 
     def evaluate(self,evalDataPath,targetLabels=["y"]):
-        data=self.ext.tsvRead(evalDataPath)
+        data=self.ext.readTsv(evalDataPath)
         features=self.ext.features(data[0])
         predictions=self.gpc.predict(features)
         labels=data[1]
@@ -58,7 +58,7 @@ class Classifier:
 
     def showFeatures(self,dataPath=None,data=None):
         if not dataPath ==None:
-            data=self.ext.tsvRead(dataPath)
+            data=self.ext.readTsv(dataPath)
             features=self.ext.features(data[0],True)
         elif not data==None:
             features=self.ext.features(data,True)
