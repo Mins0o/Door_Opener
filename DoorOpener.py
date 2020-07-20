@@ -3,6 +3,7 @@ from os import listdir
 from os.path import isfile, join
 import matplotlib.pyplot as plt
 from Classifier import Classifier
+from smbus import SMBus
 import time
 import csv
 
@@ -18,10 +19,12 @@ def chooseDevice():
     return arduino
 
 def checkSound(data,clf,targetLabels):
-    print (clf.predict([data])[0])
+    print (clf.predict([data])[0] in targetLabels) 
     return clf.predict([data])[0] in targetLabels 
 
-def openDoor(data):
+def openDoor(data,bus,addr):
+    bus.write_byte(addr,0x1)
+    time.sleep(2)
     fig=plt.figure()
     ax = fig.add_subplot(1,1,1)
     ax.plot(data[-1000:-1])
@@ -30,9 +33,14 @@ def openDoor(data):
 
 def test(arduino,clf):
     buffer=[]
-    arduino.readline()
-    arduino.readline()
+    addr = 0x8
+    print("Setting up SMBus")
+    bus = SMBus(1)
+    print("SMBus setup complete")
     targetLabels=[letter for letter in input("What are the target labels?\n")]
+    while arduino.in_waiting>0:
+        arduino.readline()
+    rawread=""
     while True:
         if arduino.in_waiting>0:
             rawread=arduino.readline()
@@ -41,14 +49,16 @@ def test(arduino,clf):
         if(len(rawread)==4):
             while len(rawread)<5:
                 while arduino.in_waiting==0:
-                    time.sleep(0.5)
+                    time.sleep(0.2)
                 rawread=arduino.readline()
                 while len(rawread)<3:
                     rawread+=arduino.read()
                 reading=int.from_bytes(rawread[:2],"big")
                 buffer.append(reading)
             if(checkSound(buffer,clf,targetLabels)):
-                openDoor(buffer)
+                openDoor(buffer,bus,addr)
+            while arduino.in_waiting>0:
+                arduino.readline()
             buffer=[]
 
 def recordData(arduino):

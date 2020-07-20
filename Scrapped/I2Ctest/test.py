@@ -12,12 +12,13 @@ bus = SMBus(1) # indicates /dev/ic2-1
 
 print ("Enter 1 for ON or 0 for OFF")
 while True:
-    """ledstate = input(">>>>   ")
+    ledstate = input(">>>>   ")
 
     if ledstate == "1":
         bus.write_byte(addr, 0x1) # switch it on
     elif ledstate == "0":
         bus.write_byte(addr, 0x0) # switch it on
     else:
-        numb = 0"""
-    print(bus.read_block_data(addr,0))
+        numb = 0
+        """
+    print(bus.read_block_data(addr,0))"""
