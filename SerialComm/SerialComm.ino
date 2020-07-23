@@ -33,8 +33,10 @@ void setup(){
 
   //motors
   doorPusher.attach(9);
+  //doorPusher.write(10);
+  delay(100);
   handlePuller.setSpeed(12);
-  handlePuller.step(1000);
+  //handlePuller.step(1000);
 
   //pin 13 is to check if the actuation routine is being executed.
   pinMode(13,OUTPUT);
@@ -47,7 +49,10 @@ void loop(){
     digitalWrite(13,HIGH);
     handlePuller.step(-2*stepsPerRound);
     doorPusher.write(90);
+    delay(500);
     doorPusher.write(0);
+    delay(500);
+    handlePuller.step(2*stepsPerRound);
     digitalWrite(13,LOW);
     openDoor=false;
   }
@@ -83,8 +88,9 @@ void loop(){
 }
 
 void receiveEvent(){
+  char hey;
   while(Wire.available()){ // Flush any I2C from RPi
-    Wire.read();
+    hey=Wire.read();
   }
-  openDoor=true; // This will take efect at the start of the loop()
+  if (hey=1){openDoor=true;} // This will take efect at the start of the loop()
 }
