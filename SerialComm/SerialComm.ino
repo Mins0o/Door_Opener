@@ -51,15 +51,9 @@ void loop(){
     // actuation part
     digitalWrite(13,HIGH);
     handlePuller.step(-2*stepsPerRound);
-<<<<<<< HEAD
-    doorPusher.write(90);
-    delay(500);
-    doorPusher.write(0);
-=======
     doorPusher.write(100);
     delay(500);
     doorPusher.write(10);
->>>>>>> 6ef77e24c7f118d3cd5307972b4670ecc60d4e7e
     delay(500);
     handlePuller.step(2*stepsPerRound);
     digitalWrite(13,LOW);
