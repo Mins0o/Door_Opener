@@ -13,7 +13,7 @@ class Classifier:
             f.close()
         elif not (trainDataPath==None or extractorOptions==[True,False,True]):
             self.ext=Extractor(extractorOptions)
-            data=ext.tsvRead(trainDataPath)
+            data=ext.readTsv(trainDataPath)
             features=self.ext.features(data[0])
             labels=data[1]
             self.gpc=GaussianProcessClassifier().fit(features,labels)
@@ -32,7 +32,7 @@ class Classifier:
         return self.gpc.predict(self.ext.features(x))
 
     def evaluate(self,evalDataPath,targetLabels=["y"]):
-        data=self.ext.tsvRead(evalDataPath)
+        data=self.ext.readTsv(evalDataPath)
         features=self.ext.features(data[0])
         predictions=self.gpc.predict(features)
         labels=data[1]
@@ -58,7 +58,7 @@ class Classifier:
 
     def showFeatures(self,dataPath=None,data=None):
         if not dataPath ==None:
-            data=self.ext.tsvRead(dataPath)
+            data=self.ext.readTsv(dataPath)
             features=self.ext.features(data[0],True)
         elif not data==None:
             features=self.ext.features(data,True)
@@ -70,20 +70,20 @@ class Classifier:
     
 if __name__=="__main__":
     ext=Extractor()
-    if(input("Are you here to evaluate?\n").lower()=="y"):
+    if(input("Are you here to evaluate?\n>>> ").lower()=="y"):
         itemsList=[f for f in listdir("data/") if f[-4:]==".pkl"]
         for item in range(len(itemsList)):
             print("{0}: {1}".format(item,itemsList[item]))
-        clfPath=int(input("Select your classifier PICKLE file"))
+        clfPath=int(input("Select your classifier PICKLE file\n>>> "))
         clf=Classifier(loadPath="data/"+itemsList[clfPath])
         dataList=[f for f in listdir("data/") if f[-4:]==".tsv"]
         for datum in range(len(dataList)):
             print("{0}: {1}".format(datum,dataList[datum]))
-        dataPath=int(input("Select your evaluation data"))
-        targetLabels=[l for l in input("target labels\n")]
+        dataPath=int(input("Select your evaluation data\n>>> "))
+        targetLabels=[l for l in input("target labels\n>>> ")]
         clf.evaluate("data/"+dataList[dataPath],targetLabels)
         _exit(0)
-    opStr=input("Input your option string\nex)'fttt'\n")
+    opStr=input("Input your option string\nex)'fttt'\n>>> ")
     options=[]
     for l in opStr:
         if l=="t":
@@ -93,6 +93,6 @@ if __name__=="__main__":
     itemsList=listdir("data/")
     for item in range(len(itemsList)):
         print("{0}: {1}".format(item, itemsList[item]))
-    dataPath=int(input("Select your training data\n"))
+    dataPath=int(input("Select your training data\n>>> "))
     clf=Classifier("data/"+itemsList[dataPath],options)
     clf.save()
