@@ -9,7 +9,7 @@ import csv
 
 
 def chooseDevice():
-    devices = [f for f in listdir("/dev/") if ((f[:4]=="ttyA" or f[:4] == "ttyU"))]
+    devices = [f for f in listdir("/dev/") if ((f[:4]=="ttyA" or f[:4] == "ttyU" or f[:4] =="ttyS"))]
     for i in range(len(devices)):
         print(i,end="\t")
         print(devices[i])
