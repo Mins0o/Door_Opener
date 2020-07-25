@@ -36,11 +36,6 @@ void setup(){
   //doorPusher.write(10);
   delay(100);
   handlePuller.setSpeed(12);
-<<<<<<< HEAD
-  //handlePuller.step(1000);
-
-=======
->>>>>>> 6ef77e24c7f118d3cd5307972b4670ecc60d4e7e
   //pin 13 is to check if the actuation routine is being executed.
   pinMode(13,OUTPUT);
   Serial.begin(9600);
