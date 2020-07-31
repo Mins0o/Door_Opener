@@ -38,6 +38,7 @@ void setup(){
   handlePuller.setSpeed(12);
   //pin 13 is to check if the actuation routine is being executed.
   pinMode(13,OUTPUT);
+  doorPusher.write(0);
   Serial.begin(9600);
 }
 
@@ -45,12 +46,12 @@ void loop(){
   if(openDoor){// this part of the code gets executed if 'openDoor' variable is set true in the receive handler.
     // actuation part
     digitalWrite(13,HIGH);
-    handlePuller.step(-2*stepsPerRound);
-    doorPusher.write(100);
+    handlePuller.step(4*stepsPerRound);
+    doorPusher.write(90);
     delay(500);
-    doorPusher.write(10);
+    doorPusher.write(0);
     delay(500);
-    handlePuller.step(2*stepsPerRound);
+    handlePuller.step(-4*stepsPerRound);
     digitalWrite(13,LOW);
     openDoor=false;
   }
