@@ -1,3 +1,4 @@
+![](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/.png)
 # Door_Opener
 Sound recognition actuator using Arduino and Raspberry Pi.  
 This project is a rough prototype and is not intended to follow along.
@@ -15,19 +16,31 @@ I wanted to solve this problem by making a device that will automatically open t
   - There can be multiple labels and user can choose target labels in Test Mode.(eg: setting target labels to whimpering and skretching)
 - User can train the classifier and evaluate it.
 
-# System
-The system is consisted 2 parts, the processing and IO control, and they can be broken into smaller subsystems.
-  ## Processing(Raspberry Pi)
+# System  
+![Connection Schematic]("https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Connection_Schematic.png""Connection Schematic")  
+The system is consisted 2 parts, the processing and IO control, and they can be broken into smaller subsystems. They communicate through two channels. Although both channels are capable of bidirectional communication, only one directional communication was used per channel.
+![Comm Detail]("https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Comm_Detail.png" "Comm Detail")![Comm Abstraction]("https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Comm_Abstract.png" "Comm Abstraction")
+  ## Processing(Raspberry Pi)  
+  ![Processor diagram]("https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Processor_diagram.png" "Processor diagram")
+  ![Data Recording]("https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Data_Recording.png" "Data Recording")  
   - Data recording: (DoorOpener.py)
     - This mode can be selected in the interface.
     - 2 recurring inputs: Analog read data from the arduino, user input label (+data file name + serial port selection _ *for once* _)
-    - output: A tsv file containing the data and the label
+    - output: A .tsv file containing the data and the label
     - In this mode, the program waits for serial input from the arduino and if it receives any valid data(that is, has marked start and end), it asks the user for one-lettered label. After recording datas, when the user exits the program properly, the data will be saved as a .tsv file in the ./data directory.
+  ![Data Fitting]("https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Data_Fitting.png" "Data Fitting")  
   - Data fitting: (Classifier.py)
     - input: .tsv data, file name for saving classifier
-    - output: .pkl of the trained classifier. This file is used in the Test Mode
-  - Actual usage(Test Mode):
-    - 
+    - output: .pkl of the trained classifier. This file is used in the Test Mode.
+    - The features(of the sound) to be collected from the raw data can be editted in the Extractor.py .
+  ![Application](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Application.png "Application")
+  - Application(Test Mode): (DoorOpener.py)
+    - This mode can be selected in the interface
+    - input: Analog read data from the arduino(recurring), classifier file, user's target labels
+    - output: Actuation signal to the arduino
+  ## IO control(Arduino)
+  - Sensor(Input): Sound Sensor
+  - Actuation(Output): A stepper motor to pull the door knob and a servo motor to push the door open
 
 This is an experimental project of mine, intended to learn more about Arduino and Raspberry Pi
 In this project, I have learned:
@@ -48,6 +61,7 @@ In this project, I have learned:
   - Iris data
   - Extracting Features of sound wave signals
 - Stepper motor
-
-Detailed documentation in work...
-(Meanwhile, you can read the comments in the code. I tried to provide all of the knowledge how this project operates.)
+- Power consumption of the motors
+  - Measuring the current drain
+  - Using capacitors for stable power supply for the motors
+  - How consequential a servo motor's back EMF can be([**Fried a Raspberry Pi and an Arduino Nano clone**](https://www.reddit.com/r/raspberry_pi/comments/i181d8/dead_pi_most_aesthetic_but_dumbest_project_result/)\)
