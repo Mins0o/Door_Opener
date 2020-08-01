@@ -27,7 +27,7 @@ The system is consisted 2 parts, the processing and IO control, and they can be 
     - 2 recurring inputs: Analog read data from the arduino, user input label (+data file name + serial port selection _ *for once* _)
     - output: A .tsv file containing the data and the label
     - In this mode, the program waits for serial input from the arduino and if it receives any valid data(that is, has marked start and end), it asks the user for one-lettered label. After recording datas, when the user exits the program properly, the data will be saved as a .tsv file in the ./data directory.
-  ![Data Fitting](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Data_Fitting.png "Data Fitting")  
+  ![Data Fitting](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Data_fitting.png "Data Fitting")  
   - Data fitting: (Classifier.py)
     - input: .tsv data, file name for saving classifier
     - output: .pkl of the trained classifier. This file is used in the Test Mode.
