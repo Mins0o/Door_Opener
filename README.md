@@ -41,6 +41,9 @@ The system is consisted 2 parts, the processing and IO control, and they can be 
   - Sensor(Input): Sound Sensor
   - Actuation(Output): A stepper motor to pull the door knob and a servo motor to push the door open
 
+---
+---
+---
 This is an experimental project of mine, intended to learn more about Arduino and Raspberry Pi
 In this project, I have learned:
 - Basic Linux : directories, devices, configurations etc.
