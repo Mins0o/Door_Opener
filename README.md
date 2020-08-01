@@ -17,7 +17,7 @@ I wanted to solve this problem by making a device that will automatically open t
 - User can train the classifier and evaluate it.
 
 # System  
-![Connection Schematic]("https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Connection_Schematic.png""Connection Schematic")  
+![Connection Schematic]("https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Connection_Schematic.png" "Connection Schematic")  
 The system is consisted 2 parts, the processing and IO control, and they can be broken into smaller subsystems. They communicate through two channels. Although both channels are capable of bidirectional communication, only one directional communication was used per channel.
 ![Comm Detail]("https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Comm_Detail.png" "Comm Detail")![Comm Abstraction]("https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Comm_Abstract.png" "Comm Abstraction")
   ## Processing(Raspberry Pi)  
