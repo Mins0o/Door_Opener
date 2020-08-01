@@ -19,19 +19,23 @@ I wanted to solve this problem by making a device that will automatically open t
 ![Connection Schematic](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Connection_Schematic.png "Connection Schematic")  
 The system is consisted 2 parts, the processing and IO control, and they can be broken into smaller subsystems. They communicate through two channels. Although both channels are capable of bidirectional communication, only one directional communication was used per channel.
 ![Comm Detail](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Comm_Detail.png "Comm Detail")![Comm Abstraction](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Comm_Abstract.png "Comm Abstraction")
-  ## Processing(Raspberry Pi)  
+  ## Processing(Raspberry Pi)##  
+  - How to read the diagrams:  
   ![Processor diagram](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Processor_diagram.png "Processor diagram")
+  ---
   ![Data Recording](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Data_Recording.png "Data Recording")  
   - Data recording: (DoorOpener.py)
     - This mode can be selected in the interface.
     - 2 recurring inputs: Analog read data from the arduino, user input label (+data file name + serial port selection _ *for once* _)
     - output: A .tsv file containing the data and the label
     - In this mode, the program waits for serial input from the arduino and if it receives any valid data(that is, has marked start and end), it asks the user for one-lettered label. After recording datas, when the user exits the program properly, the data will be saved as a .tsv file in the ./data directory.
+  ---
   ![Data Fitting](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Data_fitting.png "Data Fitting")  
   - Data fitting: (Classifier.py)
     - input: .tsv data, file name for saving classifier
     - output: .pkl of the trained classifier. This file is used in the Test Mode.
     - The features(of the sound) to be collected from the raw data can be editted in the Extractor.py .
+  ---
   ![Application](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Application.png "Application")
   - Application(Test Mode): (DoorOpener.py)
     - This mode can be selected in the interface
