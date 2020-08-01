@@ -1,13 +1,13 @@
-# Door_Opener
+# 0.Door_Opener
 Sound recognition actuator using Arduino and Raspberry Pi.  
 This project is a rough prototype and is not intended to follow along.
 If you wish to make a similar system and need more details of the project, please contact me: stengine2@gmail.com .
 
-# Motivation
+# 1.Motivation
 I have a dog in the house and I love having him with me when I go to bed. However, deeper into the night, he wakes me up by skretching the door and whimpering in order to get out of the bedroom.  
 I wanted to solve this problem by making a device that will automatically open the door if it detects skretching and/or whimpering.
 
-# Features
+# 2.Features
 - The system is attached to a door and listens to the sound wave around the lower part of the door.
 - There are two modes of operation:
   - Recording Mode : User can record sounds and create labeled sound data to train a classifier.
@@ -15,11 +15,11 @@ I wanted to solve this problem by making a device that will automatically open t
   - There can be multiple labels and user can choose target labels in Test Mode.(eg: setting target labels to whimpering and skretching)
 - User can train the classifier and evaluate it.
 
-# System  
+# 3.System  
 ![Connection Schematic](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Connection_Schematic.png "Connection Schematic")  
 The system is consisted 2 parts, the processing and IO control, and they can be broken into smaller subsystems. They communicate through two channels. Although both channels are capable of bidirectional communication, only one directional communication was used per channel.
 ![Comm Detail](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Comm_Detail.png "Comm Detail")![Comm Abstraction](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Comm_Abstract.png "Comm Abstraction")
-  ## Processing(Raspberry Pi)##  
+  ## A.Processing(Raspberry Pi)##  
   - How to read the diagrams:  
   ![Processor diagram](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Processor_diagram.png "Processor diagram")
   ---
@@ -41,11 +41,11 @@ The system is consisted 2 parts, the processing and IO control, and they can be 
     - This mode can be selected in the interface
     - input: Analog read data from the arduino(recurring), classifier file, user's target labels
     - output: Actuation signal to the arduino
-  ## IO control(Arduino)
+  ## B.IO control(Arduino)
   - Sensor(Input): Sound Sensor
   - Actuation(Output): A stepper motor to pull the door knob and a servo motor to push the door open
 
-# Demo
+# 4.Demo
 ## In preparation
 ---
 ---
