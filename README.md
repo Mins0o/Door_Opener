@@ -47,6 +47,7 @@ The system is consisted 2 parts, the processing and IO control, and they can be 
 
 # 4.Demo
 ## In preparation
+![Demo1](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Demo1.gif "Demo1") ![Demo2](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Demo2.gif "Demo2") ![Demo3](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Demo3.gif "Demo3")  
 ---
 ---
 ---
