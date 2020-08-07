@@ -55,7 +55,7 @@ In this project, I have learned:
 - Basic Linux : directories, devices, configurations etc.
 - Git in Linux
 - arduino-cli in Linux
-- Serial communication : UART and using Tx/Rx pins or USB on both boards
+- Serial communication : UART and using Tx/Rx pins
 - I2C communication protocol : 
   - The idea of using two wires for multiple devices. 
   - Python SMBus library.
