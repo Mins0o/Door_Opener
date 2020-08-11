@@ -41,7 +41,7 @@ The system is consisted 2 parts, the processing and IO control, and they can be 
     - This mode can be selected in the interface
     - input: Analog read data from the arduino(recurring), classifier file, user's target labels
     - output: Actuation signal to the arduino
-  ## B. IO control(Arduino)
+  ## B. IO control (Arduino)
   - Sensor (Input): Sound Sensor
   - Actuation (Output): A stepper motor to pull the door knob and a servo motor to push the door open
 
