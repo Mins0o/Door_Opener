@@ -1,25 +1,25 @@
-# 0.Door_Opener
+# 0. Door_Opener
 Sound recognition actuator using Arduino and Raspberry Pi.  
 This project is a rough prototype and is not intended to follow along.
 If you wish to make a similar system and need more details of the project, please contact me: stengine2@gmail.com .
 
-# 1.Motivation
+# 1. Motivation
 I have a dog in the house and I love having him with me when I go to bed. However, deeper into the night, he wakes me up by skretching the door and whimpering in order to get out of the bedroom.  
 I wanted to solve this problem by making a device that will automatically open the door if it detects skretching and/or whimpering.
 
-# 2.Features
+# 2. Features
 - The system is attached to a door and listens to the sound wave around the lower part of the door.
 - There are two modes of operation:
   - Recording Mode : User can record sounds and create labeled sound data to train a classifier.
-  - Test Mode(Use Mode): The system will listened to sound and open the door according to the sound classification result.
-  - There can be multiple labels and user can choose target labels in Test Mode.(eg: setting target labels to whimpering and skretching)
+  - Test Mode (Use Mode): The system will listened to sound and open the door according to the sound classification result.
+  - There can be multiple labels and user can choose target labels in Test Mode. (eg: setting target labels to whimpering and skretching)
 - User can train the classifier and evaluate it.
 
-# 3.System  
+# 3. System  
 ![Connection Schematic](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Connection_Schematic.png "Connection Schematic")  
 The system is consisted 2 parts, the processing and IO control, and they can be broken into smaller subsystems. They communicate through two channels. Although both channels are capable of bidirectional communication, only one directional communication was used per channel.  
-![Comm Detail](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Comm_Detail.png "Comm Detail") ________ ![Comm Abstraction](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Comm_Abstract.png "Comm Abstraction")
-  ## A.Processing(Raspberry Pi) 
+![Comm Detail](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Comm_Detail.png "Comm Detail") \_\_\_\_\_\_\_\_ ![Comm Abstraction](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Comm_Abstract.png "Comm Abstraction")
+  ## A. Processing (Raspberry Pi) 
   - How to read the diagrams:  
   ![Processor diagram](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Processor_diagram.png "Processor diagram")
   ---
@@ -34,18 +34,18 @@ The system is consisted 2 parts, the processing and IO control, and they can be 
   - Data fitting: (Classifier.py)
     - input: .tsv data, file name for saving classifier
     - output: .pkl of the trained classifier. This file is used in the Test Mode.
-    - The features(of the sound) to be collected from the raw data can be editted in the Extractor.py .
+    - The features (of the sound) to be collected from the raw data can be editted in the Extractor.py .
   ---
   ![Application](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Application.png "Application")
-  - Application(Test Mode): (DoorOpener.py)
+  - Application (Test Mode): (DoorOpener.py)
     - This mode can be selected in the interface
     - input: Analog read data from the arduino(recurring), classifier file, user's target labels
     - output: Actuation signal to the arduino
-  ## B.IO control(Arduino)
-  - Sensor(Input): Sound Sensor
-  - Actuation(Output): A stepper motor to pull the door knob and a servo motor to push the door open
+  ## B. IO control(Arduino)
+  - Sensor (Input): Sound Sensor
+  - Actuation (Output): A stepper motor to pull the door knob and a servo motor to push the door open
 
-# 4.Demo
+# 4. Demo
 ![Demo1](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Demo1.gif "Demo1") ![Demo2](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Demo2.gif "Demo2") ![Demo3](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Demo3.gif "Demo3")  
 ---
 ---
@@ -60,7 +60,7 @@ In this project, I have learned:
   - The idea of using two wires for multiple devices. 
   - Python SMBus library.
   - Compatibility of I2C between two boards.
-- ISR(Interrupt Service Routine) : 
+- ISR (Interrupt Service Routine) : 
   - Stepper motor cannot work in ISR...Valuable lesson.
   - Using volatile variable to manage states by interrupt.
   - Event handling in Arduino
@@ -72,4 +72,4 @@ In this project, I have learned:
 - Power consumption of the motors
   - Measuring the current drain
   - Using capacitors for stable power supply for the motors
-  - How consequential a servo motor's back EMF can be([**Fried a Raspberry Pi and an Arduino Nano clone**](https://www.reddit.com/r/raspberry_pi/comments/i181d8/dead_pi_most_aesthetic_but_dumbest_project_result/)\)
+  - How consequential a servo motor's back EMF can be ([**Fried a Raspberry Pi and an Arduino Nano clone**](https://www.reddit.com/r/raspberry_pi/comments/i181d8/dead_pi_most_aesthetic_but_dumbest_project_result/)\)
