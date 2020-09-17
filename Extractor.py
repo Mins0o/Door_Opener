@@ -1,6 +1,9 @@
 import csv
 import statistics
 
+# Edit of update: I didn't know about the Fourier transform when working on this project.
+# I learned and implemented Fourier transform while doing the next project (https://github.com/Mins0o/AudioSignalProcessing)
+
 class Extractor:
     """The format of data is:
     (sound readings,labels)
