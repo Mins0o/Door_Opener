@@ -28,18 +28,18 @@ The system is consisted 2 parts, the processing and IO control, and they can be 
     - This mode can be selected in the interface.
     - 2 recurring inputs: Analog read data from the arduino, user input label (+data file name + serial port selection _ *for once* _)
     - output: A .tsv file containing the data and the label
-    - In this mode, the program waits for serial input from the arduino and if it receives any valid data(that is, has marked start and end), it asks the user for one-lettered label. After recording datas, when the user exits the program properly, the data will be saved as a .tsv file in the ./data directory.
+    - In this mode, the program waits for serial input from the arduino and if it receives any valid data (that is, has marked start and end), it asks the user for one-lettered label. After recording datas, when the user exits the program properly, the data will be saved as a .tsv file in the ./data directory.
   ---
   ![Data Fitting (Try Reloading)](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Data_fitting.png "Data Fitting")  
   - Data fitting: (Classifier.py)
     - input: .tsv data, file name for saving classifier
     - output: .pkl of the trained classifier. This file is used in the Test Mode.
-    - The features (of the sound) to be collected from the raw data can be editted in the Extractor.py .
+    - The features (of the sound) to be collected from the raw data can be edited in the Extractor.py .
   ---
   ![Application (Try Reloading)](https://github.com/Mins0o/Door_Opener/raw/master/ForReadme/Application.png "Application")
   - Application (Test Mode): (DoorOpener.py)
     - This mode can be selected in the interface
-    - input: Analog read data from the arduino(recurring), classifier file, user's target labels
+    - input: Analog read data from the arduino (recurring), classifier file, user's target labels
     - output: Actuation signal to the arduino
   ## B. IO control (Arduino)
   - Sensor (Input): Sound Sensor
